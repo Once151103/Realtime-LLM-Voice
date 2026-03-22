@@ -1,0 +1,62 @@
+[project]
+name = "realtime-voice-ai-agent"
+version = "0.1.0"
+description = "Low-latency realtime voice AI assistant (Jarvis-style) for OpenClaw"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+dependencies = [
+    # Core server
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "websockets>=14.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.7.0",
+
+    # Audio processing
+    "numpy>=1.26.0",
+    "soundfile>=0.12.0",
+
+    # VAD - Silero
+    "torch>=2.5.0",
+    "torchaudio>=2.5.0",
+
+    # STT - faster-whisper (CTranslate2-based)
+    "faster-whisper>=1.1.0",
+
+    # TTS - Piper
+    "piper-tts>=1.2.0",
+
+    # LLM - Ollama + fallback
+    "httpx>=0.28.0",
+
+    # Desktop client
+    "pyaudio>=0.2.14",
+    "rich>=13.9.0",
+
+    # Cache / Memory
+    "redis>=5.2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "ruff>=0.8.0",
+]
+
+[project.scripts]
+voice-server = "main:run"
+voice-desktop = "desktop.app:main"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
